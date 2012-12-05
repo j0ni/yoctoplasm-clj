@@ -1,13 +1,16 @@
-# yoctoplasm-clj
+# Yoctoplasm
 
-A Clojure library designed to ... well, that part is up to you.
+A Clojure web application with CMSish tendencies, for experimenting
+with Clojure on the web, and Heroku as a Clojure web deployment platform.
 
 ## Usage
 
-FIXME
+Run it with foreman locally:
+
+    $ foreman start
 
 ## License
 
-Copyright © 2012 FIXME
+Copyright © 2012 Jonathan Irving
 
-Distributed under the Eclipse Public License, the same as Clojure.
+Distributed under the Gnu Public License.
