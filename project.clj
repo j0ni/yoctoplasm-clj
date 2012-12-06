@@ -9,5 +9,5 @@
                  [com.novemberain/monger "1.4.1"]
                  [ring/ring-jetty-adapter "1.1.6"]]
   :plugins [[lein-ring "0.7.5"]]
-  :ring {:handler yoctoplasm-clj.core/application}
+  :ring {:handler yoctoplasm-clj.server/application}
   :min-lein-version "2.0.0")

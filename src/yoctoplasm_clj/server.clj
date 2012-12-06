@@ -1,4 +1,4 @@
-(ns yoctoplasm-clj.core
+(ns yoctoplasm-clj.server
   (:use [compojure.core :only [defroutes]])
   (:require [compojure.route :as route]
             [compojure.handler :as handler]
