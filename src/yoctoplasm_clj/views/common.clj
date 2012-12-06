@@ -1,7 +1,7 @@
-(ns yoctoplasm-clj.views.layout
+(ns yoctoplasm-clj.views.common
   (:use [hiccup.page :only [html5 include-css]]))
 
-(defn common [title & body]
+(defn layout [title & body]
   (html5
    [:head
     [:meta {:charset "utf-8"}]
@@ -16,6 +16,6 @@
     [:div {:id "content" :class "container"} body]]))
 
 (defn four-oh-four []
-  (common "Page Not Found"
+  (layout "Page Not Found"
           [:div {:id "four-oh-four" :class "hero-unit"}
            "The page you requested could not be found"]))

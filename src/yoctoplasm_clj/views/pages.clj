@@ -1,10 +1,10 @@
 (ns yoctoplasm-clj.views.pages
-  (:require [yoctoplasm-clj.views.layout :as layout]))
+  (:require [yoctoplasm-clj.views.common :as common]))
 
 (defn index []
-  (layout/common "index title goes here"
+  (common/layout "index title goes here"
                  "index content goes here"
                  "and here of course"))
 
 (defn show [page]
-  (layout/common (:title page) (:body page)))
+  (common/layout (:title page) (:body page)))
