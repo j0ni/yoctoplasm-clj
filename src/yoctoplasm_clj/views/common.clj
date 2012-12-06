@@ -1,7 +1,7 @@
 (ns yoctoplasm-clj.views.common
   (:use [hiccup.page :only [html5 include-css]]
         [hiccup.core :only [html]])
-  (:require [yoctoplasm-clj.site :as site]))
+  (:require [yoctoplasm-clj.config :as config]))
 
 
 (defn layout [title & body]
@@ -16,7 +16,7 @@
    [:body
     [:div {:class "navbar"}
      [:div {:class "navbar-inner"}
-      [:a {:href "#" :class "brand"} site/site-name]
+      [:a {:href "#" :class "brand"} config/site-name]
       [:ul {:class "nav pull-right"}
        [:li [:a {:href "/login"} "Log in"]]]]]
     
