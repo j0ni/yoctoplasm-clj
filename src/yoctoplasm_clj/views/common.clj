@@ -1,5 +1,8 @@
 (ns yoctoplasm-clj.views.common
-  (:use [hiccup.page :only [html5 include-css]]))
+  (:use [hiccup.page :only [html5 include-css]]
+        [hiccup.core :only [html]])
+  (:require [yoctoplasm-clj.site :as site]))
+
 
 (defn layout [title & body]
   (html5
@@ -11,9 +14,16 @@
     (include-css "/bootstrap/css/bootstrap.css"
                  "/bootstrap/css/bootstrap-responsive.css")]
    [:body
-    [:div {:id "header"}
-     [:h1 {:class "container"} title]]
-    [:div {:id "content" :class "container"} body]]))
+    [:div {:class "navbar"}
+     [:div {:class "navbar-inner"}
+      [:a {:href "#" :class "brand"} site/site-name]
+      [:ul {:class "nav pull-right"}
+       [:li [:a {:href "/login"} "Log in"]]]]]
+    
+    [:div {:id "content" :class "container"}
+     [:h1 title]
+     (map #(html [:div {:class "section"} %]) body)]]))
+
 
 (defn four-oh-four []
   (layout "Page Not Found"
