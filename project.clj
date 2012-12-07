@@ -9,7 +9,9 @@
                  [cheshire "5.0.1"]
                  [com.novemberain/monger "1.4.1"]
                  [ring/ring-jetty-adapter "1.1.6"]
-                 [clj-time "0.4.4"]]
+                 [clj-time "0.4.4"]
+                 [com.cemerick/friend "0.1.2"]
+                 [ring.middleware.logger "0.2.2"]]
   :plugins [[lein-ring "0.7.5"]]
-  :ring {:handler yoctoplasm-clj.server/application}
+  :ring {:handler yoctoplasm-clj.server/secured-app}
   :min-lein-version "2.0.0")
