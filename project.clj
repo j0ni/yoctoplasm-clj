@@ -12,5 +12,6 @@
                  [clj-time "0.4.4"]
                  [com.cemerick/friend "0.1.2"]]
   :plugins [[lein-ring "0.7.5"]]
-  :ring {:handler yoctoplasm-clj.server/secured-app}
+  :ring {:handler yoctoplasm-clj.server/secured-app
+         :init yoctoplasm-clj.server/connect-to-mongo}
   :min-lein-version "2.0.0")

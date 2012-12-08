@@ -44,13 +44,11 @@
   (route/resources "/")
   (route/not-found (common/four-oh-four)))
 
-(defn with-mongo [handler]
+(defn connect-to-mongo []
   (let [uri (get (System/getenv) "MONGOLAB_URI" "mongodb://127.0.0.1/yoctoplasm_clj_development")]
-    (mg/connect-via-uri! uri)
-    handler))
+    (mg/connect-via-uri! uri)))
 
-(def application (with-mongo
-                   (handler/site routes {:session {:store (session-store "sessions")}})))
+(def application (handler/site routes {:session {:store (session-store "sessions")}}))
 
 (def secured-app
   (-> application
@@ -58,6 +56,7 @@
                             :workflows [(workflows/interactive-form)]})))
 
 (defn start [port]
+  (connect-to-mongo)
   (ring/run-jetty #'secured-app {:port (or port 3000) :join? false}))
 
 (defn -main []
