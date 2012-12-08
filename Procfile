@@ -1,1 +1,1 @@
-web: lein trampoline run -m yoctoplasm-clj.core
+web: lein trampoline run -m yoctoplasm-clj.server

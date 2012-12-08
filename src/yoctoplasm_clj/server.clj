@@ -14,9 +14,6 @@
             [cemerick.friend.workflows :as workflows]
             [cemerick.friend.credentials :as creds]))
 
-(let [uri (or (System/getenv "MONGOLAB_URI") "mongodb://127.0.0.1/yoctoplasm_clj_development")]
-  (mg/connect-via-uri! uri))
-
 ;; indexes look like this:
 ;; (mc/ensure-index "pages" {:title 1})
 
@@ -47,7 +44,13 @@
   (route/resources "/")
   (route/not-found (common/four-oh-four)))
 
-(def application (handler/site routes {:session {:store (session-store "sessions")}}))
+(defn with-mongo [handler]
+  (let [uri (get (System/getenv) "MONGOLAB_URI" "mongodb://127.0.0.1/yoctoplasm_clj_development")]
+    (mg/connect-via-uri! uri)
+    handler))
+
+(def application (with-mongo
+                   (handler/site routes {:session {:store (session-store "sessions")}})))
 
 (def secured-app
   (-> application
