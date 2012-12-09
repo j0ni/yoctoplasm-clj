@@ -10,6 +10,7 @@
             [yoctoplasm-clj.controllers.pages :as pages]
             [yoctoplasm-clj.controllers.users :as users]
             [yoctoplasm-clj.views.common :as common]
+            [yoctoplasm-clj.util.logging :as logging]
             [cemerick.friend :as friend]
             [cemerick.friend.workflows :as workflows]
             [cemerick.friend.credentials :as creds]))
@@ -44,19 +45,24 @@
   (route/resources "/")
   (route/not-found (common/four-oh-four)))
 
-(defn connect-to-mongo []
+(defn- mongo-init []
   (let [uri (get (System/getenv) "MONGOLAB_URI" "mongodb://127.0.0.1/yoctoplasm_clj_development")]
     (mg/connect-via-uri! uri)))
 
-(def application (handler/site routes {:session {:store (session-store "sessions")}}))
+(defn init []
+  (logging/init)
+  (mongo-init))
+
+(def yoctoplasm (handler/site routes {:session {:store (session-store "sessions")}}))
 
 (def secured-app
-  (-> application
+  (-> yoctoplasm
       (friend/authenticate {:credential-fn (partial creds/bcrypt-credential-fn userdb)
-                            :workflows [(workflows/interactive-form)]})))
+                            :workflows [(workflows/interactive-form)]})
+      (logging/wrap-logger)))
 
 (defn start [port]
-  (connect-to-mongo)
+  (init)
   (ring/run-jetty #'secured-app {:port (or port 3000) :join? false}))
 
 (defn -main []

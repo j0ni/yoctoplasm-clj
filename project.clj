@@ -10,8 +10,12 @@
                  [com.novemberain/monger "1.4.1"]
                  [ring/ring-jetty-adapter "1.1.6"]
                  [clj-time "0.4.4"]
-                 [com.cemerick/friend "0.1.2"]]
+                 [com.cemerick/friend "0.1.2"]
+                 [org.clojure/tools.logging "0.2.3"]
+                 [clj-logging-config "1.9.10"]
+                 [log4j/log4j "1.2.17"]]
+  :profiles {:dev {:dependencies [[ring/ring-devel "1.1.6"]]}}
   :plugins [[lein-ring "0.7.5"]]
   :ring {:handler yoctoplasm-clj.server/secured-app
-         :init yoctoplasm-clj.server/connect-to-mongo}
+         :init yoctoplasm-clj.server/init}
   :min-lein-version "2.0.0")
