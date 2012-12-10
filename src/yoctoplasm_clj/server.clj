@@ -15,9 +15,6 @@
             (cemerick.friend [workflows :as workflows]
                              [credentials :as creds])))
 
-;; indexes look like this:
-;; (mc/ensure-index "pages" {:title 1})
-
 (def userdb {"joni" {:username "joni"
                      :password (creds/hash-bcrypt "lauren")
                      :roles #{:admin}}})
@@ -31,7 +28,8 @@
 
 (defn- mongo-init []
   (let [uri (get (System/getenv) "MONGOLAB_URI" "mongodb://127.0.0.1/yoctoplasm_clj_development")]
-    (mg/connect-via-uri! uri)))
+    (mg/connect-via-uri! uri)
+    (mc/ensure-index "pages" {:slug 1} {:unique true})))
 
 (defn init []
   (logging/init)

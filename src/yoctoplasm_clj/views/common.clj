@@ -6,6 +6,9 @@
             [cemerick.friend :as friend]))
 
 
+(defn iden [request]
+  (-> request first :session :cemerick.friend/identity))
+
 (defn layout [title body & request]
   (html5
    [:head
@@ -21,14 +24,17 @@
     [:div {:class "navbar"}
      [:div {:class "navbar-inner"}
       [:a {:href "#" :class "brand"} config/site-name]
-      [:ul {:class "nav pull-right"}
-       (if-let [username (-> request first :session :cemerick.friend/identity :current)]
+      (if-let [username (-> request iden :current)]
+        [:ul {:class "nav pull-right"}
+         (when (friend/authorized? #{:admin} (iden request))
+           [:li [:a {:href "/pages/new"} "New Page"]])
          [:li {:class "dropdown"}
           [:a {:href "#" :class "dropdown-toggle" :data-toggle "dropdown"} username
            [:span {:class "caret"}]]
           [:ul {:class "dropdown-menu" :role "menu"}
-           [:li [:a {:href "/users/logout"} "Sign Out"]]]]
-         [:li [:a {:href "/users/login"} "Log in"]])]]]
+           [:li [:a {:href "/users/logout"} "Sign Out"]]]]]
+        [:ul {:class "nav pull-right"}
+         [:li [:a {:href "/users/login"} "Log in"]]])]]
     [:div {:id "content" :class "container"}
      [:h1 title]
      body]]))
