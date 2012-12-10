@@ -23,6 +23,7 @@
                      :roles #{:admin}}})
 
 (defroutes routes
+  (GET "/" [] (response/redirect "/pages"))
   (context "/pages" [] pages/routes)
   (context "/users" [] users/routes)
   (route/resources "/assets")

@@ -14,11 +14,3 @@
   (GET "/" request (index request))
   (GET "/:id" request (friend/authorize #{:admin} (show request))))
 
-
-
-
-
-
-
-
-
