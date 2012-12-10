@@ -4,7 +4,7 @@
 (defn login-page []
   (common/layout
    ""
-   [:form {:class "form-horizontal" :action "/login" :method "POST"}
+   [:form {:class "form-horizontal" :action "/users/login" :method "POST"}
     [:div {:class "control-group"}
      [:div {:class "control-label"} "Username"]
      [:div {:class "controls"}
