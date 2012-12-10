@@ -12,8 +12,8 @@
             [yoctoplasm-clj.views.common :as common]
             [yoctoplasm-clj.util.logging :as logging]
             [cemerick.friend :as friend]
-            [cemerick.friend.workflows :as workflows]
-            [cemerick.friend.credentials :as creds]))
+            (cemerick.friend [workflows :as workflows]
+                             [credentials :as creds])))
 
 ;; indexes look like this:
 ;; (mc/ensure-index "pages" {:title 1})
@@ -22,27 +22,10 @@
                      :password (creds/hash-bcrypt "lauren")
                      :roles #{::admin}}})
 
-(defn login-page []
-  (common/layout
-   ""
-   [:form {:class "form-horizontal" :action "/login" :method "POST"}
-    [:div {:class "control-group"}
-     [:div {:class "control-label"} "Username"]
-     [:div {:class "controls"}
-      [:input {:type "text" :placeholder "Username" :id "username" :name "username"}]]]
-    [:div {:class "control-group"}
-     [:div {:class "control-label"} "Password"]
-     [:div {:class "controls"}
-      [:input {:type "password" :placeholder "Password" :id "password" :name "password"}]]]
-    [:div {:class "control-group"}
-     [:div {:class "controls"}
-      [:button {:type "submit" :class "btn"} "Sign In"]]]]))
-
 (defroutes routes
   (context "/pages" [] pages/routes)
   (context "/users" [] users/routes)
-  (GET "/login" [] (login-page))
-  (route/resources "/")
+  (route/resources "/assets")
   (route/not-found (common/four-oh-four)))
 
 (defn- mongo-init []
@@ -53,17 +36,18 @@
   (logging/init)
   (mongo-init))
 
-(def yoctoplasm (handler/site routes {:session {:store (session-store "sessions")}}))
-
-(def secured-app
-  (-> yoctoplasm
-      (friend/authenticate {:credential-fn (partial creds/bcrypt-credential-fn userdb)
-                            :workflows [(workflows/interactive-form)]})
-      (logging/wrap-logger)))
+(def yoctoplasm
+  (handler/site
+   (-> routes
+       (logging/wrap-logger)
+       (friend/authenticate {:credential-fn (partial creds/bcrypt-credential-fn userdb)
+                             :login-uri "/users/login"
+                             :workflows [(workflows/interactive-form)]}))
+   {:session {:store (session-store "sessions")}}))
 
 (defn start [port]
   (init)
-  (ring/run-jetty #'secured-app {:port (or port 3000) :join? false}))
+  (ring/run-jetty #'yoctoplasm {:port (or port 3000) :join? false}))
 
 (defn -main []
   (let [port (Integer. (System/getenv "PORT"))]

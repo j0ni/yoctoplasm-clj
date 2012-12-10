@@ -1,20 +1,17 @@
 (ns yoctoplasm-clj.controllers.pages
   (:use [compojure.core :only [defroutes GET]])
-  (:require [yoctoplasm-clj.views.pages :as view]
+  (:require [yoctoplasm-clj.views.pages :as views]
             [cemerick.friend :as friend]))
 
-(defn index []
-  (view/index))
+(defn index [request]
+  (views/index request))
 
-(defn show [id]
-  (view/show {:title id :body id}))
+(defn show [{{id "id"} :params} request]
+  (views/show {:title id :body id} request))
 
 (defroutes routes
-  (GET "/" [] (index))
-  (GET "/:id" [id]
-       (friend/authorize #{:admin}
-                         {:response-msg "403 message thrown with unauthorized stone"}
-                         (show id))))
+  (GET "/" request (index request))
+  (GET "/:id" request (friend/authorize #{::admin} (show request))))
 
 
 

@@ -35,3 +35,6 @@
     (logger/trace (pretty-map req))
     (logger/trace (pretty-map response))
     response)))
+
+(defn log [m]
+  (logger/info m))

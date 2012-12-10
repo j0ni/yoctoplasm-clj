@@ -16,6 +16,6 @@
                  [log4j/log4j "1.2.17"]]
   :profiles {:dev {:dependencies [[ring/ring-devel "1.1.6"]]}}
   :plugins [[lein-ring "0.7.5"]]
-  :ring {:handler yoctoplasm-clj.server/secured-app
+  :ring {:handler yoctoplasm-clj.server/yoctoplasm
          :init yoctoplasm-clj.server/init}
   :min-lein-version "2.0.0")
