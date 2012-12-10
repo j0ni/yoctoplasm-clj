@@ -20,7 +20,7 @@
 
 (def userdb {"joni" {:username "joni"
                      :password (creds/hash-bcrypt "lauren")
-                     :roles #{::admin}}})
+                     :roles #{:admin}}})
 
 (defroutes routes
   (context "/pages" [] pages/routes)

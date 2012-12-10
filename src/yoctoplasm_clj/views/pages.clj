@@ -6,5 +6,6 @@
                  "content goes here"
                  request))
 
-(defn show [{:keys [title body]} page request]
-  (common/layout title body request))
+(defn show [page request]
+  (let [{:keys [title body]} page]
+    (common/layout title body request)))

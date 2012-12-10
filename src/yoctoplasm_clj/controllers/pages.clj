@@ -6,12 +6,13 @@
 (defn index [request]
   (views/index request))
 
-(defn show [{{id "id"} :params} request]
-  (views/show {:title id :body id} request))
+(defn show [request]
+  (let [{{id :id} :params} request]
+    (views/show {:title id :body id} request)))
 
 (defroutes routes
   (GET "/" request (index request))
-  (GET "/:id" request (friend/authorize #{::admin} (show request))))
+  (GET "/:id" request (friend/authorize #{:admin} (show request))))
 
 
 
