@@ -1,5 +1,6 @@
 (ns yoctoplasm-clj.views.pages
-  (:require [yoctoplasm-clj.views.common :as common]))
+  (:require [yoctoplasm-clj.views.common :as common])
+  (:import org.pegdown.PegDownProcessor))
 
 (defn index [request]
   (common/layout "title goes here"
@@ -7,8 +8,9 @@
                  request))
 
 (defn show [page request]
-  (let [{:keys [title body]} page]
-    (common/layout title body request)))
+  (let [{:keys [title body]} page
+        formatted-body (.markdownToHtml (PegDownProcessor.) body)]
+    (common/layout title formatted-body request)))
 
 (defn new-page [request]
   (common/layout
