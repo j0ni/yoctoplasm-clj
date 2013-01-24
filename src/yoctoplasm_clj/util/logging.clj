@@ -1,10 +1,10 @@
 (ns yoctoplasm-clj.util.logging
-  (:require [clojure.tools.logging :as logger]
-            [clojure.string :as string]
+  (:require [clj-logging-config.log4j :as config]
             [clojure.pprint :as p]
-            [clj-logging-config.log4j :as config])
-  (:import [org.apache.log4j PatternLayout ConsoleAppender]
-           [java.io StringWriter]))
+            [clojure.string :as string]
+            [clojure.tools.logging :as logger])
+  (:import (java.io StringWriter)
+           (org.apache.log4j ConsoleAppender PatternLayout)))
 
 (defn- format-query-string [q]
   (if (nil? q) "" (str "?" q)))

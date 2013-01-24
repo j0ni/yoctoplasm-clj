@@ -1,9 +1,7 @@
 (ns yoctoplasm-clj.views.common
-  (:use [hiccup.page :only [html5 include-css include-js]]
-        [hiccup.core :only [html]]
-        [clojure.pprint :only [pprint]])
-  (:require [yoctoplasm-clj.config :as config]
-            [cemerick.friend :as friend]))
+  (:require [cemerick.friend :as friend]
+            [yoctoplasm-clj.config :as config]
+            [hiccup.page :refer [html5 include-css include-js]]))
 
 
 (defn iden [request]

@@ -1,10 +1,9 @@
 (ns yoctoplasm-clj.controllers.pages
-  (:use [compojure.core :only [defroutes GET POST]]
-        [clojure.pprint :only [pprint]])
-  (:require [yoctoplasm-clj.views.pages :as views]
-            [cemerick.friend :as friend]
+  (:require [cemerick.friend :as friend]
             [monger.collection :as mc]
-            [ring.util.response :as response]))
+            [ring.util.response :as response]
+            [yoctoplasm-clj.views.pages :as views]
+            [compojure.core :refer [GET POST defroutes]]))
 
 (defn index [request]
   (views/index request))
